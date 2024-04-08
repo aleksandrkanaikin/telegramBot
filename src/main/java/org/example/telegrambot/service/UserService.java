@@ -13,8 +13,8 @@ import java.util.List;
 
 @Service
 public class UserService {
-    //@Autowired
-    public RestTemplate restTemplate = new RestTemplate();
+    @Autowired
+    public RestTemplate restTemplate;
 
     @Value("${telegram.bot.token}")
     private String botToken;
@@ -23,17 +23,12 @@ public class UserService {
     private UserRepository userRepository;
 
     public void setUserChatId(){
-        System.out.println(botToken);
-        getAllBotUsers();
-    }
-
-    public void getAllBotUsers(){
         String request = String.format("https://api.telegram.org/bot%s/getUpdates", botToken);
         List<Root> rootList = restTemplate.getForObject(request, Result.class).getResult();
         for (Root root : rootList){
-            Chat chat = root.message.chat;
-            if(!userRepository.UserMap.containsKey(chat.username)){
-                userRepository.UserMap.put(chat.username, String.valueOf(chat.id));
+            Chat chat = root.getMessage().getChat();
+            if(!userRepository.UserMap.containsKey(chat.getUsername())){
+                userRepository.UserMap.put(chat.getUsername(), String.valueOf(chat.getId()));
             }
         }
     }

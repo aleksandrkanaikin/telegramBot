@@ -2,8 +2,11 @@ package org.example.telegrambot.configuration;
 
 import org.example.telegrambot.repository.UserRepository;
 import org.example.telegrambot.service.UserService;
+import org.glassfish.grizzly.http.util.HttpStatus;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.bots.TelegramLongPollingBot;
 import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
@@ -16,13 +19,12 @@ import java.util.List;
 public class TelegramBot extends TelegramLongPollingBot {
 
     @Value("${telegram.bot.token}")
-    private String botToken; // = "6831716015:AAFPPKn7KFLzqcIrad9AdPI3kqho5EC3iNc";
-
+    private String botToken;
     @Value("${telegram.bot.username}")
-    private String botUsername; //= "task_Telegram_bot";
+    private String botUsername;
 
     @Autowired
-    private UserService userService; // = new UserService();
+    private UserService userService;
 
     @Autowired
     private UserRepository userRepository;
@@ -42,7 +44,7 @@ public class TelegramBot extends TelegramLongPollingBot {
         return botToken;
     }
 
-    public String sendMessageToChat(List<String> usernames, String messageText) throws InterruptedException {
+    public ResponseEntity<String> sendMessageToChat(List<String> usernames, String messageText) throws InterruptedException {
         System.out.println(botToken);
         System.out.println(botUsername);
         userService.setUserChatId();
@@ -58,10 +60,10 @@ public class TelegramBot extends TelegramLongPollingBot {
                 }
             }
             else {
-                return String.format("User with this username %s not found", username);
+                return new ResponseEntity(String.format("User with this username %s not found", username), HttpStatusCode.valueOf(404));
             }
         }
 
-        return "Message send";
+        return new ResponseEntity("Message send", HttpStatusCode.valueOf(200));
     }
 }

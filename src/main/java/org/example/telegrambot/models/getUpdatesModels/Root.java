@@ -8,6 +8,6 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Root {
-    public int update_id;
-    public MessageUpdates message;
+    private Long update_id;
+    private MessageUpdates message;
 }

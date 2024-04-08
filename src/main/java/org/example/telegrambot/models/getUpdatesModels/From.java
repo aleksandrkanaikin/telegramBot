@@ -8,9 +8,9 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class From {
-    public int id;
-    public boolean is_bot;
-    public String first_name;
-    public String username;
-    public String language_code;
+    private Long id;
+    private boolean is_bot;
+    private String first_name;
+    private String username;
+    private String language_code;
 }

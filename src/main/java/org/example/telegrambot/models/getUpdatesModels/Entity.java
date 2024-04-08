@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Entity {
-    public int offset;
-    public int length;
-    public String type;
+    private int offset;
+    private int length;
+    private String type;
 }

@@ -10,10 +10,10 @@ import java.util.ArrayList;
 @AllArgsConstructor
 @Data
 public class MessageUpdates {
-    public int message_id;
-    public From from;
-    public Chat chat;
-    public int date;
-    public String text;
-    public ArrayList<Entity> entities;
+    private Long message_id;
+    private From from;
+    private Chat chat;
+    private Long date;
+    private String text;
+    private ArrayList<Entity> entities;
 }

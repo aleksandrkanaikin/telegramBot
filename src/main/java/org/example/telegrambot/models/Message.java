@@ -11,6 +11,5 @@ import java.util.List;
 @Data
 public class Message {
     private String text;
-    private List<String> usernames;
-    //private String chatId;
+    private List<String> usernamesList;
 }

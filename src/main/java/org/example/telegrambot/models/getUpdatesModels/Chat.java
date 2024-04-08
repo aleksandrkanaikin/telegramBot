@@ -8,8 +8,8 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @Data
 public class Chat {
-    public int id;
-    public String first_name;
-    public String username;
-    public String type;
+    private Long id;
+    private String first_name;
+    private String username;
+    private String type;
 }
