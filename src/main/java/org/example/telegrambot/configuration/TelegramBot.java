@@ -1,5 +1,6 @@
 package org.example.telegrambot.configuration;
 
+import org.example.telegrambot.repository.UserRepository;
 import org.example.telegrambot.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -14,13 +15,17 @@ import java.util.List;
 @Component
 public class TelegramBot extends TelegramLongPollingBot {
 
-    //@Value("${telegram.bot.token}")
-    private final String botToken = "6831716015:AAFPPKn7KFLzqcIrad9AdPI3kqho5EC3iNc";
-    @Autowired
-    UserService userService;
+    @Value("${telegram.bot.token}")
+    private String botToken; // = "6831716015:AAFPPKn7KFLzqcIrad9AdPI3kqho5EC3iNc";
 
-   // @Value("${telegram.bot.username}")
-    private final String botUsername = "task_Telegram_bot";
+    @Value("${telegram.bot.username}")
+    private String botUsername; //= "task_Telegram_bot";
+
+    @Autowired
+    private UserService userService; // = new UserService();
+
+    @Autowired
+    private UserRepository userRepository;
 
     @Override
     public void onUpdateReceived(Update update) {
@@ -37,20 +42,26 @@ public class TelegramBot extends TelegramLongPollingBot {
         return botToken;
     }
 
-    public void sendMessageToChat(List<String> chatIds, String messageText) throws InterruptedException {
+    public String sendMessageToChat(List<String> usernames, String messageText) throws InterruptedException {
         System.out.println(botToken);
         System.out.println(botUsername);
-        for (String chatId : chatIds) {
-            SendMessage message = new SendMessage();
-            message.setText(messageText);
-            message.setChatId(chatId);
-            try {
-                execute(message);
-                userService.setUserChatId();
-            } catch (TelegramApiException e) {
-                e.printStackTrace();
+        userService.setUserChatId();
+        for (String username : usernames) {
+            if(userRepository.UserMap.containsKey(username)){
+                SendMessage message = new SendMessage();
+                message.setText(messageText);
+                message.setChatId(userRepository.UserMap.get(username));
+                try {
+                    execute(message);
+                } catch (TelegramApiException e) {
+                    e.printStackTrace();
+                }
+            }
+            else {
+                return String.format("User with this username %s not found", username);
             }
         }
 
+        return "Message send";
     }
 }

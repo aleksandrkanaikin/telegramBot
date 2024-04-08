@@ -1,4 +1,4 @@
-package org.example.telegrambot.models;
+package org.example.telegrambot.models.getUpdatesModels;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -9,8 +9,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Data
-public class Message {
-    private String text;
-    private List<String> usernames;
-    //private String chatId;
+public class Result {
+    private boolean ok;
+    private List<Root> result;
 }
