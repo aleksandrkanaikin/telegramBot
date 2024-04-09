@@ -45,8 +45,7 @@ public class TelegramBot extends TelegramLongPollingBot {
     }
 
     public ResponseEntity<String> sendMessageToChat(List<String> usernames, String messageText) throws InterruptedException {
-        System.out.println(botToken);
-        System.out.println(botUsername);
+
         userService.setUserChatId();
         for (String username : usernames) {
             if(userRepository.UserMap.containsKey(username)){
