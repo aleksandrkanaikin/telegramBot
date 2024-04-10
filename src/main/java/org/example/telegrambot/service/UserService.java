@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class UserService {
@@ -31,5 +32,10 @@ public class UserService {
                 userRepository.UserMap.put(chat.getUsername(), String.valueOf(chat.getId()));
             }
         }
+    }
+
+    public Map<String, String> getUsers(){
+        setUserChatId();
+        return userRepository.UserMap;
     }
 }
